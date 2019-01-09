@@ -28,17 +28,17 @@ class UserController extends Controller
 
 
 
-//        $email = $request->get('email');
-//        $pw = $request->get('pw');
+        $email = $request->get('email');
+        $pw = $request->get('pw');
         $response = [];
 
         try {
-            $validator = $request->validate([
+            $this->validate($request, [
                 'email'  => 'required|email|max:255',
-                'pw' => 'required|confirmed|min:6',
+                'pw' => 'required',
             ]);
 
-            $this->userService->register($validator['email'],$validator['pw']);
+            $this->userService->register($email, $pw);
 
             $response['code'] = 200;
             $response['msg'] = 'ok';
@@ -70,7 +70,7 @@ class UserController extends Controller
 
             $validator =  $request->validate([
                 'email'  => 'required|email|max:255|exists:users,email',
-                'pw' => 'required',
+                'pw' => 'required|min:6',
             ]);
 
             $this->userService->login($validator['email'],$validator['pw']);
