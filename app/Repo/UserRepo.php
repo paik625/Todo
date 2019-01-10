@@ -32,4 +32,14 @@ class UserRepo
     public function user($email){
         return User::where('email',$email);
     }
+
+    /**
+     * @param $email
+     * @return boolean
+     */
+    public  function user_out($email)
+    {
+        echo(session()->isValidId($email));
+        return session()->isValidId($email);
+    }
 }

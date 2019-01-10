@@ -32,9 +32,13 @@ Route::get('/update', function () {
 Route::get('/delete', function () {
     return view('welcome');
 });
+Route::get('/logout', function () {
+    return view('welcome');
+});
 
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 Route::get('/dev/session','DevController@session');

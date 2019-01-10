@@ -35,7 +35,7 @@ class UserController extends Controller
         try {
             $this->validate($request, [
                 'email'  => 'required|email|max:255',
-                'pw' => 'required',
+                'pw' => 'required|min:6',
             ]);
 
             $this->userService->register($email, $pw);
@@ -70,7 +70,7 @@ class UserController extends Controller
 
             $validator =  $request->validate([
                 'email'  => 'required|email|max:255|exists:users,email',
-                'pw' => 'required|min:6',
+                'pw' => 'required',
             ]);
 
             $this->userService->login($validator['email'],$validator['pw']);
@@ -90,4 +90,37 @@ class UserController extends Controller
 
         return Response::json($response);
     }
+
+    public function logout(Request $request)
+    {
+        $email = $request->get('email');
+        $response = [];
+        try{
+
+            $this->validate($request, [
+                'email'  => 'required|email|max:255',
+            ]);
+
+            $this->userService->logout($email);
+
+            $response['code'] = 200;
+            $response['msg'] = 'ok';
+
+        } catch (UserException $e){
+        $response['code'] = $e->getCode();
+        $response['msg'] = $e->getMessage();
+        } catch (PDOException $e){
+            $response['code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
+        } catch (Exception $e){
+            $response['code'] = $e->getCode();
+            $response['msg'] = $e->getMessage();
 }
+
+        return Response::json($response);
+
+    }
+
+}
+
+

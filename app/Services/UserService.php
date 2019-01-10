@@ -42,9 +42,10 @@ class UserService
     {
         $user = $this->userRepo->user($email)->first();
 
-        $hashed_pw = $user->pw;
+        $hashed_pw = $user->passwd;
+     #   echo($hashed_pw);
 
-        unset($user->pw);
+        unset($user->passwd);
 
         if (Hash::check($pw, $hashed_pw)) {
             session(['user'=>$user]);
@@ -52,5 +53,20 @@ class UserService
             throw new UserException('pw not equal',201);
         }
 
+    }
+
+    /**
+     * @param $email
+     * @throws UserException
+     */
+    public function logout($email)
+    {
+        $user = $this->userRepo->user_out($email);
+        echo($user);
+        if($user){
+            session_abort();
+        }else{
+            throw new UserException('no login',201);
+        }
     }
 }

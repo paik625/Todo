@@ -21,6 +21,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Illuminate\Database\Eloquent\Collection $tasks
  *
  * @package App\Models
+ * @method static where(string $string, $email)
  */
 class User extends Eloquent
 {
